@@ -5,12 +5,12 @@ export default function Villagers({ data }) {
     return (
         <div>
             <p>Villagers</p>
-            <Grid columns={3}>
+            <Grid>
                 {data.map((villager, i) => {
                     return (
-                        <Grid.Column key={i}>
+                        <Grid.Column key={i} mobile={16} tablet={8} computer={4}>
                             <Card>
-                                <Image src={villager.image_url}/>
+                                <Image className="image-villager"src={villager.image_url}/>
                                 <Card.Content>
                                     <Card.Header>{villager.name}</Card.Header>
                                     <Card.Description>
@@ -20,6 +20,8 @@ export default function Villagers({ data }) {
                                         <p>{villager.gender}</p>
                                         <strong>Personality</strong>
                                         <p>{villager.personality}</p>
+                                        <strong>Catchphrase</strong>
+                                        <p>{villager.phrase}</p>
                                         <strong>Birthday</strong>
                                         <p>{villager.birthday_day} {villager.birthday_month}</p>
                                     </Card.Description>

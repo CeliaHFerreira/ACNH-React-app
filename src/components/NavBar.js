@@ -9,6 +9,9 @@ export default function NavBar() {
                 <Link to='/'>
                     <Menu.Item name="Animal Crossing New Horizons" />
                 </Link>
+                <Link to='/villagers'>
+                    <Menu.Item name="Villagers" />
+                </Link>
                 <Link to='/fish'>
                     <Menu.Item name="Fish" />
                 </Link>
@@ -17,9 +20,6 @@ export default function NavBar() {
                 </Link>
                 <Link to='/artwork'>
                     <Menu.Item name="ArtWork" />
-                </Link>
-                <Link to='/villagers'>
-                    <Menu.Item name="Villagers" />
                 </Link>
             </Container>
         </Menu>

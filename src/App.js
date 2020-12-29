@@ -45,7 +45,7 @@ function App() {
       setArtWork(data);
     }
     async function fetchVillagers() {
-      let res = await fetch('https://api.nookipedia.com/villagers', {
+      let res = await fetch('https://api.nookipedia.com/villagers?game=nh', {
         headers: {
           'x-api-key': '3c1ec54a-ee67-4b9d-8dbf-9c71004f0e97'
         }

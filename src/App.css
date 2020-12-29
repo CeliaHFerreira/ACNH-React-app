@@ -1,0 +1,11 @@
+.image-fish, .image-bugs {
+    height: 30vh;
+}
+
+.image-villager {
+    height: 40vh;
+}
+
+.toggle {
+    margin: 15px 0px;
+}
