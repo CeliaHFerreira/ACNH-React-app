@@ -1,9 +1,26 @@
+.principal {
+    width: 1.5em !important;
+    margin-right: 10px !important;
+}
+
+.title {
+    font-weight: bold !important;
+}
+
+.item {
+    padding-top: 20px;
+}
+
 .image-fish, .image-bugs {
     height: 30vh;
 }
 
-.image-villager {
+.image-villager{
     height: 40vh;
+}
+
+.image-art{
+    height: 20vh;
 }
 
 .toggle {

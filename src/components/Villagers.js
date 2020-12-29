@@ -8,7 +8,7 @@ export default function Villagers({ data }) {
             <Grid>
                 {data.map((villager, i) => {
                     return (
-                        <Grid.Column key={i} mobile={16} tablet={8} computer={4}>
+                        <Grid.Column key={i} mobile={9} tablet={8} computer={4}>
                             <Card>
                                 <Image className="image-villager"src={villager.image_url}/>
                                 <Card.Content>
@@ -20,10 +20,10 @@ export default function Villagers({ data }) {
                                         <p>{villager.gender}</p>
                                         <strong>Personality</strong>
                                         <p>{villager.personality}</p>
-                                        <strong>Catchphrase</strong>
-                                        <p>{villager.phrase}</p>
                                         <strong>Birthday</strong>
                                         <p>{villager.birthday_day} {villager.birthday_month}</p>
+                                        <strong>Catchphrase</strong>
+                                        <p>{villager.phrase}</p>
                                     </Card.Description>
                                 </Card.Content>
                             </Card>
