@@ -1,11 +1,13 @@
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
 import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+
 
 export default function Villagers({ data }) {
     return (
         <div>
-            <p>Villagers</p>
+            <h1>Villagers</h1>
             <Grid>
                 {data.map((villager, i) => {
                     return (
@@ -13,19 +15,30 @@ export default function Villagers({ data }) {
                             <Card>
                                 <Card.Img variant="top" className="image-villager" src={villager.image_url} />
                                 <Card.Body>
-                                    <Card.Title>{villager.name}</Card.Title>
-                                    <Card.Text>
-                                        <strong>Specie</strong>
-                                        <p>{villager.species}</p>
-                                        <strong>Gender</strong>
-                                        <p>{villager.gender}</p>
-                                        <strong>Personality</strong>
-                                        <p>{villager.personality}</p>
-                                        <strong>Birthday</strong>
-                                        <p>{villager.birthday_day} {villager.birthday_month}</p>
-                                        <strong>Catchphrase</strong>
-                                        <p>{villager.phrase}</p>
-                                    </Card.Text>
+                                    <ListGroup variant="flush">
+                                        <ListGroup.Item>
+                                            <Card.Title>{villager.name}</Card.Title>
+                                            <Card.Subtitle className="mb-2 text-muted">
+                                                {villager.species}
+                                            </Card.Subtitle>
+                                        </ListGroup.Item>
+                                        <ListGroup.Item>
+                                            <h6>Gender</h6>
+                                            <p>{villager.gender}</p>
+                                        </ListGroup.Item>
+                                        <ListGroup.Item>
+                                            <h6>Personality</h6>
+                                            <p>{villager.personality}</p>
+                                        </ListGroup.Item>
+                                        <ListGroup.Item>
+                                            <h6>Birthday</h6>
+                                            <p>{villager.birthday_day} {villager.birthday_month}</p>
+                                        </ListGroup.Item>
+                                        <ListGroup.Item>
+                                            <h6> Catchphrase</h6>
+                                            <p>{villager.phrase}</p>
+                                        </ListGroup.Item>
+                                    </ListGroup>
                                 </Card.Body>
                             </Card>
                         </Grid.Column>

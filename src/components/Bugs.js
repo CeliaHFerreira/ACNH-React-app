@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Grid, Radio } from 'semantic-ui-react';
 import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+
 
 export default function Bugs({ data }) {
     const [toggleState, setToggled] = useState('North hemisphere');
@@ -19,19 +21,25 @@ export default function Bugs({ data }) {
                             <Card>
                                 <Card.Img variant="top" className='image-bugs' src={bugs.image_url} />
                                 <Card.Body>
-                                    <Card.Title>{bugs.name}</Card.Title>
-                                    <Card.Text>
-                                        <strong>Location</strong>
-                                        <p>{bugs.location}</p>
-                                        <strong>Sell price in Nook's Cranny</strong>
-                                        <p>{bugs.sell_nook}</p>
-                                        <strong>Availability in {toggleState.toString()}</strong>
-                                        <div>{toggleState.toString() === 'North hemisphere'
-                                            ? (<p>{bugs.north.availability_array[0].months}, {bugs.north.availability_array[0].time}</p>)
-                                            : (<p>{bugs.south.availability_array[0].months}, {bugs.south.availability_array[0].time}</p>)
-                                        }
-                                        </div>
-                                    </Card.Text>
+                                    <ListGroup variant="flush">
+                                        <ListGroup.Item>
+                                            <Card.Title>{bugs.name}</Card.Title>
+                                            <Card.Subtitle className="mb-2 text-muted">
+                                                {bugs.location}
+                                            </Card.Subtitle>
+                                        </ListGroup.Item>
+                                        <ListGroup.Item>
+                                            <h6>Sell price in Nook's Cranny</h6>
+                                            <p>{bugs.sell_nook}</p>
+                                        </ListGroup.Item>
+                                        <ListGroup.Item>
+                                            <h6>Availability in {toggleState.toString()}</h6>
+                                            {toggleState.toString() === 'North hemisphere'
+                                                ? (<p>{bugs.north.availability_array[0].months}, {bugs.north.availability_array[0].time}</p>)
+                                                : (<p>{bugs.south.availability_array[0].months}, {bugs.south.availability_array[0].time}</p>)
+                                            }
+                                        </ListGroup.Item>
+                                    </ListGroup>
                                 </Card.Body>
                             </Card>
                         </Grid.Column>
