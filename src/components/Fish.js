@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Radio, Card, Grid, Image } from 'semantic-ui-react';
+import { Radio, Grid, } from 'semantic-ui-react';
+import Card from 'react-bootstrap/Card';
 
 export default function Fish({ data }) {
     const [toggleState, setToggled] = useState('North hemisphere');
@@ -17,10 +18,10 @@ export default function Fish({ data }) {
                     return (
                         <Grid.Column key={i} mobile={16} tablet={8} computer={5}>
                             <Card>
-                                <Image className="image-fish" src={fish.image_url} />
-                                <Card.Content>
-                                    <Card.Header>{fish.name}</Card.Header>
-                                    <Card.Description>
+                                <Card.Img variant="top" className="image-fish" src={fish.image_url} />
+                                <Card.Body>
+                                    <Card.Title>{fish.name}</Card.Title>
+                                    <Card.Text>
                                         <strong>Location</strong>
                                         <p>{fish.location}</p>
                                         <strong>Shadow size</strong>
@@ -33,8 +34,8 @@ export default function Fish({ data }) {
                                             : (<p>{fish.south.availability_array[0].months}, {fish.south.availability_array[0].time}</p>)
                                         }
                                         </div>
-                                    </Card.Description>
-                                </Card.Content>
+                                    </Card.Text>
+                                </Card.Body>
                             </Card>
                         </Grid.Column>
                     )

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Card, Grid, Image } from 'semantic-ui-react';
+import { Grid, Image } from 'semantic-ui-react';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 export default function ArtWork({ data }) {
     const [artItem, setArtItem] = useState();
@@ -8,24 +10,20 @@ export default function ArtWork({ data }) {
             <p>ArtWork</p>
             <Grid>
                 {data.map((artWork, i) => {
-                    let fake;
-                    fake = (artWork.has_fake) ?
-                        <h5>Can be fake</h5>
-                        : <h5>Always real</h5>;
                     return (
                         <Grid.Column key={i} mobile={8} tablet={5} computer={4}>
                             <Card>
-                                <Image className='image-art' src={artWork.image_url} />
-                                <Card.Content>
-                                    <Card.Header>{artWork.name}</Card.Header>
-                                    <Card.Description>
+                                <Card.Img variant="top" className='image-art' src={artWork.image_url} />
+                                <Card.Body>
+                                    <Card.Title>{artWork.name}</Card.Title>
+                                    <Card.Text>
                                         <strong>Art name</strong>
                                         <p>{artWork.art_name}</p>
                                         <strong>Author</strong>
                                         <p>{artWork.author}</p>
-                                        {fake}
-                                    </Card.Description>
-                                </Card.Content>
+                                    </Card.Text>
+                                    <Button variant="primary">Details</Button>
+                                </Card.Body>
                             </Card>
                         </Grid.Column>
                     )

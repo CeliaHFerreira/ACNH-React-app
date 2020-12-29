@@ -11,15 +11,24 @@
     padding-top: 20px;
 }
 
-.image-fish, .image-bugs {
+.image-fish,
+.image-bugs {
     height: 30vh;
+    max-width: 50vw;
+    min-width: 15vw !important;
+    display: block;
+    margin: auto;
 }
 
-.image-villager{
+.image-villager {
     height: 40vh;
+    max-width: 50vw;
+    min-width: 15vw !important;
+    display: block;
+    margin: auto;
 }
 
-.image-art{
+.image-art {
     height: 20vh;
 }
 

@@ -9,7 +9,7 @@ export default function NavBar() {
             <Container>
                 <Link to='/'>
                     <Menu.Item className="title" name="Animal Crossing New Horizons">
-                    <img className="principal" src={ACNH} />
+                        <img className="principal" src={ACNH} />
                     Animal Crossing New Horizons
                     </Menu.Item>
                 </Link>

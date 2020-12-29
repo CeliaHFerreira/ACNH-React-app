@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Radio, Card, Grid, Image } from 'semantic-ui-react';
+import { Grid, Radio } from 'semantic-ui-react';
+import Card from 'react-bootstrap/Card';
 
 export default function Bugs({ data }) {
     const [toggleState, setToggled] = useState('North hemisphere');
@@ -16,10 +17,10 @@ export default function Bugs({ data }) {
                     return (
                         <Grid.Column key={i} mobile={16} tablet={8} computer={4}>
                             <Card>
-                                <Image className='image-bugs' src={bugs.image_url} />
-                                <Card.Content>
-                                    <Card.Header>{bugs.name}</Card.Header>
-                                    <Card.Description>
+                                <Card.Img variant="top" className='image-bugs' src={bugs.image_url} />
+                                <Card.Body>
+                                    <Card.Title>{bugs.name}</Card.Title>
+                                    <Card.Text>
                                         <strong>Location</strong>
                                         <p>{bugs.location}</p>
                                         <strong>Sell price in Nook's Cranny</strong>
@@ -30,8 +31,8 @@ export default function Bugs({ data }) {
                                             : (<p>{bugs.south.availability_array[0].months}, {bugs.south.availability_array[0].time}</p>)
                                         }
                                         </div>
-                                    </Card.Description>
-                                </Card.Content>
+                                    </Card.Text>
+                                </Card.Body>
                             </Card>
                         </Grid.Column>
                     )

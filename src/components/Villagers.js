@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, Grid, Image } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
+import Card from 'react-bootstrap/Card';
 
 export default function Villagers({ data }) {
     return (
@@ -8,12 +9,12 @@ export default function Villagers({ data }) {
             <Grid>
                 {data.map((villager, i) => {
                     return (
-                        <Grid.Column key={i} mobile={9} tablet={8} computer={4}>
+                        <Grid.Column key={i} mobile={16} tablet={8} computer={4}>
                             <Card>
-                                <Image className="image-villager"src={villager.image_url}/>
-                                <Card.Content>
-                                    <Card.Header>{villager.name}</Card.Header>
-                                    <Card.Description>
+                                <Card.Img variant="top" className="image-villager" src={villager.image_url} />
+                                <Card.Body>
+                                    <Card.Title>{villager.name}</Card.Title>
+                                    <Card.Text>
                                         <strong>Specie</strong>
                                         <p>{villager.species}</p>
                                         <strong>Gender</strong>
@@ -24,8 +25,8 @@ export default function Villagers({ data }) {
                                         <p>{villager.birthday_day} {villager.birthday_month}</p>
                                         <strong>Catchphrase</strong>
                                         <p>{villager.phrase}</p>
-                                    </Card.Description>
-                                </Card.Content>
+                                    </Card.Text>
+                                </Card.Body>
                             </Card>
                         </Grid.Column>
                     )
