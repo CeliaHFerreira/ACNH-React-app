@@ -1,9 +1,37 @@
+/* General */
 .background {
     background-image: url("./assets/images/background.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center center;
 }
+
+/* Home */
+.jumbotron-home {
+    background-color: transparent !important;
+}
+
+.title-home {
+    margin-bottom: 20px;
+}
+
+.fossil,
+.rock,
+.money-tree,
+.recipe-bottle,
+.flowers {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 50% !important;
+    padding: 5px !important;
+    margin: 10px;
+}
+.image-inside {
+    max-width: 80px;
+    max-height: 80px;
+}
+
+/* NavBar */
 .principal {
     width: 1.5em !important;
     margin-right: 10px !important;
@@ -13,10 +41,7 @@
     font-weight: bold !important;
 }
 
-.item {
-    padding-top: 20px;
-}
-
+/* Pages fish, bugs, villagers and artWork */
 .image-fish,
 .image-bugs {
     height: 30vh;
