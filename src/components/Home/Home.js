@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
+import './Home.css';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Button from 'react-bootstrap/Button';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import Image from 'react-bootstrap/Image';
 import { Container } from 'semantic-ui-react';
-import fossil from '../assets/images/fossil.png';
-import rock from '../assets/images/rock.png';
-import tree from '../assets/images/money-tree.png';
-import recipe from '../assets/images/recipe-bottle.png';
-import flowers from '../assets/images/watering-can.png';
+import fossil from '../../assets/images/fossil.png';
+import rock from '../../assets/images/rock.png';
+import tree from '../../assets/images/money-tree.png';
+import recipe from '../../assets/images/recipe-bottle.png';
+import flowers from '../../assets/images/watering-can.png';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 
@@ -21,15 +22,27 @@ class Home extends React.Component {
                 <h1 className="title-home">Animal Crossing New Horizons</h1>
                 <Container>
                     <h2>Daily Checklist</h2>
+                    <h4>Money, recipes, fossils and flowers</h4>
                     {/* falta diseño aqui, ponerlo bonito, cada task con descripcion y control de todos los task completados */}
                     <Button variant="primary" className="money-tree"><Image className="image-inside" src={tree} roundedCircle /></Button>
                     <Button variant="primary" className="recipe-bottle"><Image className="image-inside" src={recipe} roundedCircle /></Button>
                     <Button variant="primary" className="flowers"><Image className="image-inside" src={flowers} roundedCircle /></Button>
                     <ToggleButtonGroupControlled value={"fossil"} />
+                    <h4>Break rocks</h4>
                     <ToggleButtonGroupControlled value={"rock"} />
-
+                    <h4>Talk with residents</h4>
                     <h2>Turnip price</h2>
-                    
+                    <InputGroup className="mb-3">
+                        <InputGroup.Prepend>
+                            <InputGroup.Text>$</InputGroup.Text>
+                            <InputGroup.Text>0.00</InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <FormControl
+                            placeholder="Recipient's username"
+                            aria-label="Amount (to the nearest dollar)"
+                        />
+                    </InputGroup>
+                    <h4>Stats of turnip price</h4>
                 </Container>
             </Jumbotron>
         )

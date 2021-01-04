@@ -1,0 +1,18 @@
+
+.image-art {
+    height: 20vh;
+}
+
+.subtitle-item {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.button-art {
+    display: block !important;
+    margin: auto;
+}
+
+.toggle {
+    margin: 15px 0px;
+}

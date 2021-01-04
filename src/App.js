@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import NavBar from './components/NavBar';
+import NavBar from './components/NavBar/NavBar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
-import Home from './components/Home';
-import Fish from './components/Fish';
-import Bugs from './components/Bugs';
-import ArtWork from './components/ArtWork';
-import Villagers from './components/Villagers';
+import Home from './components/Home/Home';
+import Fish from './components/FIsh/Fish';
+import Bugs from './components/Bugs/Bugs';
+import ArtWork from './components/ArtWork/ArtWork';
+import Villagers from './components/Villagers/Villagers';
 
 
 function App() {

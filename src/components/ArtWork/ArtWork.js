@@ -1,4 +1,5 @@
 import React from 'react';
+import './ArtWork.css';
 import { Grid } from 'semantic-ui-react';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';

@@ -6,41 +6,6 @@
     background-position: center center;
 }
 
-/* Home */
-.jumbotron-home {
-    background-color: transparent !important;
-}
-
-.title-home {
-    margin-bottom: 20px;
-}
-
-.fossil,
-.rock,
-.money-tree,
-.recipe-bottle,
-.flowers {
-    max-width: 100px;
-    max-height: 100px;
-    border-radius: 50% !important;
-    padding: 5px !important;
-    margin: 10px;
-}
-.image-inside {
-    max-width: 80px;
-    max-height: 80px;
-}
-
-/* NavBar */
-.principal {
-    width: 1.5em !important;
-    margin-right: 10px !important;
-}
-
-.title {
-    font-weight: bold !important;
-}
-
 /* Pages fish, bugs, villagers and artWork */
 .image-fish,
 .image-bugs {
@@ -49,31 +14,4 @@
     min-width: 15vw !important;
     display: block;
     margin: auto;
-}
-
-.image-villager {
-    padding: 0 20px;
-    height: 40vh;
-    max-width: 50vw;
-    min-width: 15vw !important;
-    display: block;
-    margin: auto;
-}
-
-.image-art {
-    height: 20vh;
-}
-
-.subtitle-item {
-    font-size: 14px;
-    font-weight: normal;
-}
-
-.button-art {
-    display: block !important;
-    margin: auto;
-}
-
-.toggle {
-    margin: 15px 0px;
 }

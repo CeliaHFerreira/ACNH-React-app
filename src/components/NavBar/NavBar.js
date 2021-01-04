@@ -1,7 +1,8 @@
 import React from 'react';
+import './NavBar.css';
 import { Menu, Container } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import ACNH from '../assets/images/ACNH.png';
+import ACNH from '../../assets/images/ACNH.png';
 
 export default function NavBar() {
     return (
