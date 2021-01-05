@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Fish.css';
 import { Radio, Grid, } from 'semantic-ui-react';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';

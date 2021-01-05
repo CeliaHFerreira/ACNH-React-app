@@ -4,7 +4,7 @@ import NavBar from './components/NavBar/NavBar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 import Home from './components/Home/Home';
-import Fish from './components/FIsh/Fish';
+import Fish from './components/Fish/Fish';
 import Bugs from './components/Bugs/Bugs';
 import ArtWork from './components/ArtWork/ArtWork';
 import Villagers from './components/Villagers/Villagers';
@@ -45,7 +45,7 @@ function App() {
       setArtWork(data);
     }
     async function fetchVillagers() {
-      let res = await fetch('https://api.nookipedia.com/villagers?game=nh', {
+      let res = await fetch('https://api.nookipedia.com/villagers?game=nh&nhdetails=true', {
         headers: {
           'x-api-key': '3c1ec54a-ee67-4b9d-8dbf-9c71004f0e97'
         }

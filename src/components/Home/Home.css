@@ -7,7 +7,14 @@
     margin-bottom: 20px;
 }
 
-.fossil,
+.container-central {
+    background:rgba(226, 243, 245, 0.5);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+/* .fossil,
 .rock,
 .money-tree,
 .recipe-bottle,
@@ -21,4 +28,36 @@
 .image-inside {
     max-width: 80px;
     max-height: 80px;
+} */
+
+.daily, .fossils, .rocks {
+    display: flex;
+    flex-wrap: wrap;
 }
+
+.image-check {
+    width: 100px;
+    height: 100px;
+    border-radius: 50% !important;
+    padding: 10px !important;
+    margin: 10px;
+}
+.fancy-checkbox-label > input[type=checkbox] {
+    position: absolute;
+    opacity: 0;
+    cursor: inherit;
+  }
+  .fancy-checkbox-label {
+    font-weight: normal;
+    cursor: pointer;
+  }
+  .fancy-checkbox-img:before {
+    position: absolute;
+    margin: 3px;
+    line-height: normal;
+  }
+  input:checked + .fancy-checkbox-img + img {
+    transform: scale(0.9);
+    box-shadow: 0 0 8px #67ad42;
+    background-color: #67ad42d7;
+  }

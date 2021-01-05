@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Bugs.css';
 import { Grid, Radio } from 'semantic-ui-react';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
