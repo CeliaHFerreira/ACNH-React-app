@@ -1,6 +1,9 @@
 
 .image-art {
-    height: 20vh;
+    padding: 10px;
+    width: auto !important;
+    display: block;
+    margin: auto;
 }
 
 .subtitle-item {
@@ -10,7 +13,7 @@
 
 .button-art {
     display: block !important;
-    margin: auto;
+    margin: 10px auto;
 }
 
 .toggle {
