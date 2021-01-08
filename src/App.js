@@ -16,6 +16,15 @@ function App() {
   const [artWork, setArtWork] = useState([]);
   const [villagers, setVillagers] = useState([]);
 
+
+  let expirityDate = localStorage.getItem('expirityDate');
+  if (expirityDate < new Date().getTime()) {
+    localStorage.removeItem('expirityDate');
+    localStorage.removeItem('daily');
+    localStorage.removeItem('fossils');
+    localStorage.removeItem('rocks');
+  }
+
   useEffect(() => {
     async function fetchFish() {
       let res = await fetch('https://api.nookipedia.com/nh/fish', {

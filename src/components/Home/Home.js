@@ -26,27 +26,35 @@ import daisy from '../../assets/images/daisy-mae.png';
 class Home extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            daily: [
-                { id: 1, value: "tree", isChecked: false, image: tree },
-                { id: 2, value: "recipe", isChecked: false, image: recipe },
-                { id: 3, value: "flowers", isChecked: false, image: flowers },
-                { id: 4, value: "residents", isChecked: false, image: residents }
-            ],
-            fossils: [
-                { id: 1, value: "fossil1", isChecked: false, image: fossil },
-                { id: 2, value: "fossil2", isChecked: false, image: fossil },
-                { id: 3, value: "fossil3", isChecked: false, image: fossil },
-                { id: 4, value: "fossil4", isChecked: false, image: fossil }
-            ],
-            rocks: [
-                { id: 1, value: "rock1", isChecked: false, image: rock },
-                { id: 2, value: "rock2", isChecked: false, image: rock },
-                { id: 3, value: "rock3", isChecked: false, image: rock },
-                { id: 4, value: "rock4", isChecked: false, image: rock },
-                { id: 5, value: "rock5", isChecked: false, image: rock },
-                { id: 6, value: "rock6", isChecked: false, image: rock }
-            ]
+        if (localStorage.getItem('daily') || localStorage.getItem('fossils') || localStorage.getItem('rocks')) {
+            this.state = {
+                daily: JSON.parse(localStorage.getItem('daily')),
+                fossils: JSON.parse(localStorage.getItem('fossils')),
+                rocks: JSON.parse(localStorage.getItem('rocks')),
+            }
+        } else {
+            this.state = {
+                daily: [
+                    { id: 1, value: "tree", isChecked: false, image: tree },
+                    { id: 2, value: "recipe", isChecked: false, image: recipe },
+                    { id: 3, value: "flowers", isChecked: false, image: flowers },
+                    { id: 4, value: "residents", isChecked: false, image: residents }
+                ],
+                fossils: [
+                    { id: 1, value: "fossil1", isChecked: false, image: fossil },
+                    { id: 2, value: "fossil2", isChecked: false, image: fossil },
+                    { id: 3, value: "fossil3", isChecked: false, image: fossil },
+                    { id: 4, value: "fossil4", isChecked: false, image: fossil }
+                ],
+                rocks: [
+                    { id: 1, value: "rock1", isChecked: false, image: rock },
+                    { id: 2, value: "rock2", isChecked: false, image: rock },
+                    { id: 3, value: "rock3", isChecked: false, image: rock },
+                    { id: 4, value: "rock4", isChecked: false, image: rock },
+                    { id: 5, value: "rock5", isChecked: false, image: rock },
+                    { id: 6, value: "rock6", isChecked: false, image: rock }
+                ]
+            }
         }
     }
 
@@ -69,6 +77,7 @@ class Home extends React.Component {
                 rock.isChecked = event.target.checked
         })
         this.setState({ rocks: rocks });
+        setWithExpirityDate(daily, rocks, fossils);
     }
 
     render() {
@@ -159,7 +168,7 @@ class Home extends React.Component {
                             <FormControl
                                 placeholder="Afternoon price"
                             />
-                        <Button className="button-sell" variant="success" size="lg" block>Save</Button>
+                            <Button className="button-sell" variant="success" size="lg" block>Save</Button>
                         </InputGroup>
                         <h4 className="prices">
                             <img alt="calculator" className="secondary" src={calculator} />
@@ -175,3 +184,15 @@ class Home extends React.Component {
 }
 
 export default Home;
+
+
+function setWithExpirityDate(daily, rocks, fossils) {
+    let minutesFinnisHour = (24-new Date().getHours())*3600000;
+    let hoursFinnishDay = (60-new Date().getMinutes())*60000;
+    let hoursReset = 5*3600000;
+    let provisionalExpirity = new Date().getTime() + minutesFinnisHour + hoursFinnishDay + hoursReset;
+    localStorage.setItem('expirityDate', provisionalExpirity);
+    localStorage.setItem('daily', JSON.stringify(daily));
+    localStorage.setItem('fossils', JSON.stringify(fossils));
+    localStorage.setItem('rocks', JSON.stringify(rocks));
+}
