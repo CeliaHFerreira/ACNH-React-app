@@ -5,16 +5,23 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 export default function Fish({ data }) {
-    const [toggleState, setToggled] = useState('North hemisphere');
+    let hemisphere = sessionStorage.getItem('hemisphere');
+    if (!hemisphere) {
+        hemisphere = 'North hemisphere';
+    }
+    const [toggleState, setToggled] = useState(hemisphere);
+    sessionStorage.setItem('hemisphere', toggleState);
+    let selectNS = toggleState === 'North hemisphere' ? false : true;
 
     function toggleNorthSouth() {
         setToggled(toggleState === 'North hemisphere' ? 'South hemisphere' : 'North hemisphere');
+
     }
 
     return (
         <div>
             <h1>Fish</h1>
-            <Radio toggle onClick={toggleNorthSouth} label={toggleState.toString()} className="toggle" />
+            <Radio toggle onClick={toggleNorthSouth} label={toggleState.toString()} checked={selectNS} className="toggle" />
             <Grid>
                 {data.map((fish, i) => {
                     return (

@@ -16,7 +16,13 @@ function App() {
   const [artWork, setArtWork] = useState([]);
   const [villagers, setVillagers] = useState([]);
 
-
+  // const [toggleState, setToggled] = useState('North hemisphere');
+  let hemisphere = sessionStorage.getItem('hemisphere');
+  if (!hemisphere) {
+    hemisphere = 'North hemisphere';
+    sessionStorage.setItem('hemisphere', hemisphere);
+  }
+  sessionStorage.setItem('hemisphere', hemisphere);
   let expirityDate = localStorage.getItem('expirityDate');
   if (expirityDate < new Date().getTime()) {
     localStorage.removeItem('expirityDate');
