@@ -15,7 +15,6 @@ export default function Fish({ data }) {
 
     function toggleNorthSouth() {
         setToggled(toggleState === 'North hemisphere' ? 'South hemisphere' : 'North hemisphere');
-
     }
 
     return (

@@ -7,6 +7,8 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import { Container } from 'semantic-ui-react';
 import { Icon } from 'semantic-ui-react';
+// Axios
+import axios from '../../axios-island';
 
 // images
 import fossil from '../../assets/images/fossil.png';
@@ -23,14 +25,19 @@ import calculator from '../../assets/images/calculator.png';
 import daisy from '../../assets/images/daisy-mae.png';
 
 
+const regNumber = /^[0-9\b]+$/;
 class Home extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         if (localStorage.getItem('daily') || localStorage.getItem('fossils') || localStorage.getItem('rocks')) {
             this.state = {
                 daily: JSON.parse(localStorage.getItem('daily')),
                 fossils: JSON.parse(localStorage.getItem('fossils')),
                 rocks: JSON.parse(localStorage.getItem('rocks')),
+                purchasePrice: '',
+                sellAfternoon: '',
+                sellMorning: '',
+                turnipStats: []
             }
         } else {
             this.state = {
@@ -53,7 +60,11 @@ class Home extends React.Component {
                     { id: 4, value: "rock4", isChecked: false, image: rock },
                     { id: 5, value: "rock5", isChecked: false, image: rock },
                     { id: 6, value: "rock6", isChecked: false, image: rock }
-                ]
+                ],
+                purchasePrice: '',
+                sellAfternoon: '',
+                sellMorning: '',
+                turnipStats: []
             }
         }
     }
@@ -78,6 +89,93 @@ class Home extends React.Component {
         })
         this.setState({ rocks: rocks });
         setWithExpirityDate(daily, rocks, fossils);
+    }
+
+    purchaseSave(e) {
+        e.preventDefault();
+        var date = new Date();
+        const valueWeek = {
+            price: this.state.purchasePrice,
+            date: date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear()
+        }
+
+        if (new Date().getDay === 0) {
+            axios.post('/purchase.json', valueWeek)
+                .then(() => {
+                    document.getElementById("purchase-price").value = '';
+                    this.setState({ purchasePrice: '' });
+                }).catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            console.log("Today it's not sunday!");
+            document.getElementById("purchase-price").value = '';
+            this.setState({ purchasePrice: '' });
+        }
+    }
+
+    sellSave(e) {
+        e.preventDefault();
+        var date = new Date();
+        const params = {
+            valueMorning: this.state.sellMorning,
+            valueAfternoon: this.state.sellAfternoon,
+            date: date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear()
+        };
+        var repeat = false;
+        for (let data in this.state.turnipStats) {
+            if (this.state.turnipStats[data].date === params.date) {
+                repeat = true;
+            }
+        }
+        if (!repeat) {
+            axios.post('/price-stats.json', params)
+                .then(() => {
+                    document.getElementById("afternoon-price").value = '';
+                    document.getElementById("morning-price").value = '';
+                    this.setState({ sellMorning: '', sellAfternoon: '' });
+                }).catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            console.log("You already added information today!");
+            document.getElementById("afternoon-price").value = '';
+            document.getElementById("morning-price").value = '';
+            this.setState({ sellMorning: '', sellAfternoon: '' });
+        }
+    }
+
+    handleChange(event) {
+        if (event.target.value === '' || regNumber.test(event.target.value)) {
+            switch (event.target.id) {
+                case "purchase-price":
+                    this.setState({ purchasePrice: event.target.value });
+                    break;
+                case "morning-price":
+                    this.setState({ sellMorning: event.target.value });
+                    break;
+                case "afternoon-price":
+                    this.setState({ sellAfternoon: event.target.value });
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    componentDidMount() {
+        axios.get('/price-stats.json')
+            .then((response) => {
+                const fetchTurnips = [];
+                for (let key in response.data) {
+                    fetchTurnips.push({
+                        ...response.data[key],
+                        id: key
+                    });
+                }
+                this.setState({ turnipStats: fetchTurnips });
+            })
+            .catch(error => console.log(error));
     }
 
     render() {
@@ -144,11 +242,15 @@ class Home extends React.Component {
                                 <InputGroup.Text><Icon name='star' size='large' /></InputGroup.Text>
                             </InputGroup.Prepend>
                             <FormControl
+                                id="purchase-price"
                                 placeholder="Purchase price sunday"
                                 aria-label="Purchase price sunday"
+                                maxLength="3"
+                                value={this.state.purchasePrice}
+                                onChange={this.handleChange.bind(this)}
                             />
                             <InputGroup.Append>
-                                <Button variant="success">Save</Button>
+                                <Button variant="success" type='submit' onClick={this.purchaseSave.bind(this)} disabled={!this.state.purchasePrice}>Save</Button>
                             </InputGroup.Append>
                         </InputGroup>
                         <h4 className="buy-sell">
@@ -160,21 +262,33 @@ class Home extends React.Component {
                                 <InputGroup.Text><Icon name='sun' size='large' /></InputGroup.Text>
                             </InputGroup.Prepend>
                             <FormControl
+                                id="morning-price"
                                 placeholder="Morning price"
+                                maxLength="3"
+                                value={this.state.sellMorning}
+                                onChange={this.handleChange.bind(this)}
                             />
                             <InputGroup.Prepend>
                                 <InputGroup.Text><Icon name='moon' size='large' /></InputGroup.Text>
                             </InputGroup.Prepend>
                             <FormControl
+                                id="afternoon-price"
                                 placeholder="Afternoon price"
+                                maxLength="3"
+                                value={this.state.sellAfternoon}
+                                onChange={this.handleChange.bind(this)}
                             />
-                            <Button className="button-sell" variant="success" size="lg" block>Save</Button>
+                            <Button className="button-sell" variant="success" size="lg" onClick={this.sellSave.bind(this)} disabled={!(this.state.sellAfternoon && this.state.sellMorning)} block>Save</Button>
                         </InputGroup>
                         <h4 className="prices">
                             <img alt="calculator" className="secondary" src={calculator} />
                             Stats of turnip price
                         </h4>
-                        {/* falta la tabla */}
+                        {
+                            this.state.turnipStats.map((stat, key) => {
+                                return (<p key={key}>{stat.valueAfternoon}</p>)
+                            })
+                        }
                     </div>
                 </Container>
             </Jumbotron>
@@ -187,9 +301,9 @@ export default Home;
 
 
 function setWithExpirityDate(daily, rocks, fossils) {
-    let minutesFinnisHour = (24-new Date().getHours())*3600000;
-    let hoursFinnishDay = (60-new Date().getMinutes())*60000;
-    let hoursReset = 5*3600000;
+    let minutesFinnisHour = (24 - new Date().getHours()) * 3600000;
+    let hoursFinnishDay = (60 - new Date().getMinutes()) * 60000;
+    let hoursReset = 5 * 3600000;
     let provisionalExpirity = new Date().getTime() + minutesFinnisHour + hoursFinnishDay + hoursReset;
     localStorage.setItem('expirityDate', provisionalExpirity);
     localStorage.setItem('daily', JSON.stringify(daily));

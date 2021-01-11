@@ -9,7 +9,6 @@ import Bugs from './components/Bugs/Bugs';
 import ArtWork from './components/ArtWork/ArtWork';
 import Villagers from './components/Villagers/Villagers';
 
-
 function App() {
   const [fish, setFish] = useState([]);
   const [bugs, setBugs] = useState([]);
