@@ -10,7 +10,8 @@ import { Container } from 'semantic-ui-react';
 import { Icon } from 'semantic-ui-react';
 // Axios
 import axios from '../../axios-island';
-
+// UI Elements
+import Spinner from '../../assets/UI/Spinner/Spinner';
 // images
 import fossil from '../../assets/images/fossil.png';
 import rock from '../../assets/images/rock.png';
@@ -48,7 +49,8 @@ class Home extends React.Component {
                 sellAfternoon: '',
                 sellMorning: '',
                 turnipStats: [],
-                priceStats: ''
+                priceStats: '',
+                loading: false,
             }
         } else {
             this.state = {
@@ -76,7 +78,8 @@ class Home extends React.Component {
                 sellAfternoon: '',
                 sellMorning: '',
                 turnipStats: [],
-                priceStats: ''
+                priceStats: '',
+                loading: false
             }
         }
     }
@@ -104,6 +107,7 @@ class Home extends React.Component {
     }
 
     purchaseSave(e) {
+        this.setState({ loading: true });
         e.preventDefault();
         var date = new Date();
         const valueWeek = {
@@ -129,6 +133,7 @@ class Home extends React.Component {
     }
 
     sellSave(e) {
+        this.setState({ loading: true });
         e.preventDefault();
         var date = new Date();
         const params = {
@@ -180,38 +185,39 @@ class Home extends React.Component {
     }
 
     componentDidMount() {
+        this.setState({ loading: true });
         this.callPurchase();
-        this.callPrices();        
+        this.callPrices();
     }
 
     callPurchase() {
         axios.get('/purchase.json')
-        .then((response) => {
-            const fetchPrice = [];
-            for (let key in response.data) {
-                fetchPrice.push({
-                    ...response.data[key],
-                    id: key
-                });
-            }
-            this.setState({ priceStats: fetchPrice[fetchPrice.length - 1].price });
-        })
-        .catch(error => console.log(error));
+            .then((response) => {
+                const fetchPrice = [];
+                for (let key in response.data) {
+                    fetchPrice.push({
+                        ...response.data[key],
+                        id: key
+                    });
+                }
+                this.setState({ priceStats: fetchPrice[fetchPrice.length - 1].price, loading: false });
+            })
+            .catch(error => console.log(error));
     }
 
     callPrices() {
         axios.get('/price-stats.json')
-        .then((response) => {
-            const fetchTurnips = [];
-            for (let key in response.data) {
-                fetchTurnips.push({
-                    ...response.data[key],
-                    id: key
-                });
-            }
-            this.setState({ turnipStats: fetchTurnips });
-        })
-        .catch(error => console.log(error));
+            .then((response) => {
+                const fetchTurnips = [];
+                for (let key in response.data) {
+                    fetchTurnips.push({
+                        ...response.data[key],
+                        id: key
+                    });
+                }
+                this.setState({ turnipStats: fetchTurnips, loading: false });
+            })
+            .catch(error => console.log(error));
     }
 
     render() {
@@ -320,38 +326,44 @@ class Home extends React.Component {
                             <img alt="calculator" className="secondary" src={calculator} />
                             Stats of turnip price
                         </h4>
-                        <p className="purchase-price"><Icon name='star'/><span className="price-text">Last Daisy Mae's price:</span> {this.state.priceStats} bells</p>
-                        <p className="fluctuation-price"><Icon name='star'/>Turnip price fluctuation:</p>
-                        <Table responsive className="table">
-                            <thead>
-                                <tr>
-                                    <th className="bodyTable"></th>
-                                    {
-                                        this.state.turnipStats.map((stat, key) => {
-                                            return (<th className="bodyTable" key={key}>{stat.day} {stat.date}</th>)
-                                        })
-                                    }
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td className="bodyTable">AM</td>
-                                    {
-                                        this.state.turnipStats.map((stat, key) => {
-                                            return (<th key={key} className="bodyTable">{stat.valueMorning}</th>)
-                                        })
-                                    }
-                                </tr>
-                                <tr>
-                                    <td className="bodyTable">PM</td>
-                                    {
-                                        this.state.turnipStats.map((stat, key) => {
-                                            return (<th key={key} className="bodyTable">{stat.valueAfternoon}</th>)
-                                        })
-                                    }
-                                </tr>
-                            </tbody>
-                        </Table>
+                        {this.state.loading
+                            ? <Spinner />
+                            : <div>
+                                <p className="purchase-price"><Icon name='star' /><span className="price-text">Last Daisy Mae's price:</span> {this.state.priceStats} bells</p>
+
+                                <p className="fluctuation-price"><Icon name='star' />Turnip price fluctuation:</p>
+                                <Table responsive className="table">
+                                    <thead>
+                                        <tr>
+                                            <th className="bodyTable"></th>
+                                            {
+                                                this.state.turnipStats.map((stat, key) => {
+                                                    return (<th className="bodyTable" key={key}>{stat.day} {stat.date}</th>)
+                                                })
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className="bodyTable">AM</td>
+                                            {
+                                                this.state.turnipStats.map((stat, key) => {
+                                                    return (<th key={key} className="bodyTable">{stat.valueMorning}</th>)
+                                                })
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <td className="bodyTable">PM</td>
+                                            {
+                                                this.state.turnipStats.map((stat, key) => {
+                                                    return (<th key={key} className="bodyTable">{stat.valueAfternoon}</th>)
+                                                })
+                                            }
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                            </div>
+                        }
                     </div>
                 </Container>
             </Jumbotron>

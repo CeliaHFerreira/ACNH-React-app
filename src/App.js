@@ -8,14 +8,15 @@ import Fish from './components/Fish/Fish';
 import Bugs from './components/Bugs/Bugs';
 import ArtWork from './components/ArtWork/ArtWork';
 import Villagers from './components/Villagers/Villagers';
+import Spinner from './assets/UI/Spinner/Spinner';
 
 function App() {
   const [fish, setFish] = useState([]);
   const [bugs, setBugs] = useState([]);
   const [artWork, setArtWork] = useState([]);
   const [villagers, setVillagers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // const [toggleState, setToggled] = useState('North hemisphere');
   let hemisphere = sessionStorage.getItem('hemisphere');
   if (!hemisphere) {
     hemisphere = 'North hemisphere';
@@ -72,6 +73,7 @@ function App() {
     fetchBugs();
     fetchArtWork();
     fetchVillagers();
+    setLoading(false);
   }, []);
 
   return (
@@ -79,23 +81,27 @@ function App() {
       <Router>
         <NavBar />
         <Container>
-          <Switch>
-            <Route exact path='/'>
-              <Home />
-            </Route>
-            <Route exact path='/fish'>
-              <Fish data={fish} />
-            </Route>
-            <Route exact path='/bugs'>
-              <Bugs data={bugs} />
-            </Route>
-            <Route exact path='/artwork'>
-              <ArtWork data={artWork} />
-            </Route>
-            <Route exact path='/villagers'>
-              <Villagers data={villagers} />
-            </Route>
-          </Switch>
+          {loading
+            ? <Spinner />
+            : <Switch>
+              <Route exact path='/'>
+                <Home />
+              </Route>
+              <Route exact path='/fish'>
+                <Fish data={fish} />
+              </Route>
+              <Route exact path='/bugs'>
+                <Bugs data={bugs} />
+              </Route>
+              <Route exact path='/artwork'>
+                <ArtWork data={artWork} />
+              </Route>
+              <Route exact path='/villagers'>
+                <Villagers data={villagers} />
+              </Route>
+            </Switch>
+
+          }
         </Container>
       </Router>
     </div>
