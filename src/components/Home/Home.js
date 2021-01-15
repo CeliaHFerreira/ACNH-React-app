@@ -5,6 +5,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
+import Table from 'react-bootstrap/Table';
 import { Container } from 'semantic-ui-react';
 import { Icon } from 'semantic-ui-react';
 // Axios
@@ -26,6 +27,15 @@ import daisy from '../../assets/images/daisy-mae.png';
 
 
 const regNumber = /^[0-9\b]+$/;
+const days = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+];
 class Home extends React.Component {
     constructor(props) {
         super(props);
@@ -37,7 +47,8 @@ class Home extends React.Component {
                 purchasePrice: '',
                 sellAfternoon: '',
                 sellMorning: '',
-                turnipStats: []
+                turnipStats: [],
+                priceStats: ''
             }
         } else {
             this.state = {
@@ -64,7 +75,8 @@ class Home extends React.Component {
                 purchasePrice: '',
                 sellAfternoon: '',
                 sellMorning: '',
-                turnipStats: []
+                turnipStats: [],
+                priceStats: ''
             }
         }
     }
@@ -96,14 +108,16 @@ class Home extends React.Component {
         var date = new Date();
         const valueWeek = {
             price: this.state.purchasePrice,
-            date: date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear()
+            date: date.getDate() + "/" + date.getMonth() + 1 + " (" + date.getFullYear() + ")",
+            day: days[date.getDay()]
         }
 
-        if (new Date().getDay === 0) {
+        if (new Date().getDay !== 0) {
             axios.post('/purchase.json', valueWeek)
                 .then(() => {
                     document.getElementById("purchase-price").value = '';
                     this.setState({ purchasePrice: '' });
+                    this.callPurchase();
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -120,7 +134,8 @@ class Home extends React.Component {
         const params = {
             valueMorning: this.state.sellMorning,
             valueAfternoon: this.state.sellAfternoon,
-            date: date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear()
+            date: date.getDate() + "/" + date.getMonth() + 1 + " (" + date.getFullYear() + ")",
+            day: days[date.getDay()]
         };
         var repeat = false;
         for (let data in this.state.turnipStats) {
@@ -131,6 +146,7 @@ class Home extends React.Component {
         if (!repeat) {
             axios.post('/price-stats.json', params)
                 .then(() => {
+                    this.callPrices();
                     document.getElementById("afternoon-price").value = '';
                     document.getElementById("morning-price").value = '';
                     this.setState({ sellMorning: '', sellAfternoon: '' });
@@ -164,18 +180,38 @@ class Home extends React.Component {
     }
 
     componentDidMount() {
+        this.callPurchase();
+        this.callPrices();        
+    }
+
+    callPurchase() {
+        axios.get('/purchase.json')
+        .then((response) => {
+            const fetchPrice = [];
+            for (let key in response.data) {
+                fetchPrice.push({
+                    ...response.data[key],
+                    id: key
+                });
+            }
+            this.setState({ priceStats: fetchPrice[fetchPrice.length - 1].price });
+        })
+        .catch(error => console.log(error));
+    }
+
+    callPrices() {
         axios.get('/price-stats.json')
-            .then((response) => {
-                const fetchTurnips = [];
-                for (let key in response.data) {
-                    fetchTurnips.push({
-                        ...response.data[key],
-                        id: key
-                    });
-                }
-                this.setState({ turnipStats: fetchTurnips });
-            })
-            .catch(error => console.log(error));
+        .then((response) => {
+            const fetchTurnips = [];
+            for (let key in response.data) {
+                fetchTurnips.push({
+                    ...response.data[key],
+                    id: key
+                });
+            }
+            this.setState({ turnipStats: fetchTurnips });
+        })
+        .catch(error => console.log(error));
     }
 
     render() {
@@ -284,15 +320,41 @@ class Home extends React.Component {
                             <img alt="calculator" className="secondary" src={calculator} />
                             Stats of turnip price
                         </h4>
-                        {
-                            this.state.turnipStats.map((stat, key) => {
-                                return (<p key={key}>{stat.valueAfternoon}</p>)
-                            })
-                        }
+                        <p className="purchase-price"><Icon name='star'/><span className="price-text">Last Daisy Mae's price:</span> {this.state.priceStats} bells</p>
+                        <p className="fluctuation-price"><Icon name='star'/>Turnip price fluctuation:</p>
+                        <Table responsive className="table">
+                            <thead>
+                                <tr>
+                                    <th className="bodyTable"></th>
+                                    {
+                                        this.state.turnipStats.map((stat, key) => {
+                                            return (<th className="bodyTable" key={key}>{stat.day} {stat.date}</th>)
+                                        })
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td className="bodyTable">AM</td>
+                                    {
+                                        this.state.turnipStats.map((stat, key) => {
+                                            return (<th key={key} className="bodyTable">{stat.valueMorning}</th>)
+                                        })
+                                    }
+                                </tr>
+                                <tr>
+                                    <td className="bodyTable">PM</td>
+                                    {
+                                        this.state.turnipStats.map((stat, key) => {
+                                            return (<th key={key} className="bodyTable">{stat.valueAfternoon}</th>)
+                                        })
+                                    }
+                                </tr>
+                            </tbody>
+                        </Table>
                     </div>
                 </Container>
             </Jumbotron>
-
         )
     }
 }

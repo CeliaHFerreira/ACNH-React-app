@@ -61,8 +61,31 @@
 .button-sell {
     margin: 20px 0;
 }
+
 .prices {
+    margin: 15px 0px 20px;
+}
+
+.purchase-price {
+    margin: 15px 10px 20px;
+}
+
+.price-text {
+    font-weight: bold;
+}
+
+.fluctuation-price {
+    font-weight: bold;
+    margin: 15px 10px 0;
+}
+.table {
     margin: 15px 0px;
+}
+
+.bodyTable {
+    border-top: none !important;
+    border-right: 1px solid #dee2e6;
+    text-align: center;
 }
 
 
