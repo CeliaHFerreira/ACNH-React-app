@@ -12,6 +12,7 @@ import { Icon } from 'semantic-ui-react';
 import axios from '../../axios-island';
 // UI Elements
 import Spinner from '../../assets/UI/Spinner/Spinner';
+import ModalComponent from '../../assets/UI/Modal/Modal';
 // images
 import fossil from '../../assets/images/fossil.png';
 import rock from '../../assets/images/rock.png';
@@ -37,6 +38,7 @@ const days = [
     'Friday',
     'Saturday',
 ];
+
 class Home extends React.Component {
     constructor(props) {
         super(props);
@@ -51,6 +53,8 @@ class Home extends React.Component {
                 turnipStats: [],
                 priceStats: '',
                 loading: false,
+                showModal: false,
+                text: ''
             }
         } else {
             this.state = {
@@ -79,8 +83,18 @@ class Home extends React.Component {
                 sellMorning: '',
                 turnipStats: [],
                 priceStats: '',
-                loading: false
+                loading: false,
+                showModal: false,
+                text: ''
             }
+        }
+    }
+
+    handleShowModal() {
+        if (this.state.showModal) {
+            this.setState({ showModal: false })
+        } else {
+            this.setState({ showModal: true })
         }
     }
 
@@ -116,19 +130,21 @@ class Home extends React.Component {
             day: days[date.getDay()]
         }
 
-        if (new Date().getDay !== 0) {
+        if (new Date().getDay === 0) {
             axios.post('/purchase.json', valueWeek)
                 .then(() => {
                     document.getElementById("purchase-price").value = '';
                     this.setState({ purchasePrice: '' });
                     this.callPurchase();
                 }).catch((error) => {
-                    console.log(error);
+                    this.handleShowModal();
+                    this.setState({ text: "Something bad happen, try again" });
                 });
         } else {
-            console.log("Today it's not sunday!");
+            this.handleShowModal();
+            this.setState({ text: "Today it's not sunday!" });
             document.getElementById("purchase-price").value = '';
-            this.setState({ purchasePrice: '' });
+            this.setState({ purchasePrice: '', loading: false });
         }
     }
 
@@ -156,13 +172,15 @@ class Home extends React.Component {
                     document.getElementById("morning-price").value = '';
                     this.setState({ sellMorning: '', sellAfternoon: '' });
                 }).catch((error) => {
-                    console.log(error);
+                    this.handleShowModal();
+                    this.setState({ text: "Something bad happen, try again" });
                 });
         } else {
-            console.log("You already added information today!");
+            this.setState({ text: "You already added information today!" });
+            this.handleShowModal();
             document.getElementById("afternoon-price").value = '';
             document.getElementById("morning-price").value = '';
-            this.setState({ sellMorning: '', sellAfternoon: '' });
+            this.setState({ sellMorning: '', sellAfternoon: '', loading: false });
         }
     }
 
@@ -202,7 +220,10 @@ class Home extends React.Component {
                 }
                 this.setState({ priceStats: fetchPrice[fetchPrice.length - 1].price, loading: false });
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                this.handleShowModal();
+                this.setState({ text: "Something bad happen, try again" });
+            });
     }
 
     callPrices() {
@@ -217,7 +238,10 @@ class Home extends React.Component {
                 }
                 this.setState({ turnipStats: fetchTurnips, loading: false });
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                this.handleShowModal();
+                this.setState({ text: "Something bad happen, try again" });
+            });
     }
 
     render() {
@@ -366,6 +390,11 @@ class Home extends React.Component {
                         }
                     </div>
                 </Container>
+                <ModalComponent
+                    show={this.state.showModal}
+                    onHide={() => this.handleShowModal()}
+                    text={this.state.text}
+                ></ModalComponent>
             </Jumbotron>
         )
     }

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import NavBar from './components/NavBar/NavBar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
+import NavBar from './components/NavBar/NavBar';
 import Home from './components/Home/Home';
 import Fish from './components/Fish/Fish';
 import Bugs from './components/Bugs/Bugs';
@@ -22,7 +22,6 @@ function App() {
     hemisphere = 'North hemisphere';
     sessionStorage.setItem('hemisphere', hemisphere);
   }
-  sessionStorage.setItem('hemisphere', hemisphere);
   let expirityDate = localStorage.getItem('expirityDate');
   if (expirityDate < new Date().getTime()) {
     localStorage.removeItem('expirityDate');
@@ -77,34 +76,36 @@ function App() {
   }, []);
 
   return (
-    <div className="background">
-      <Router>
-        <NavBar />
-        <Container>
-          {loading
-            ? <Spinner />
-            : <Switch>
-              <Route exact path='/'>
-                <Home />
-              </Route>
-              <Route exact path='/fish'>
-                <Fish data={fish} />
-              </Route>
-              <Route exact path='/bugs'>
-                <Bugs data={bugs} />
-              </Route>
-              <Route exact path='/artwork'>
-                <ArtWork data={artWork} />
-              </Route>
-              <Route exact path='/villagers'>
-                <Villagers data={villagers} />
-              </Route>
-            </Switch>
+    <>
+      {loading
+        ? <Spinner />
+        : <div className="background">
+          <Router>
+            <NavBar />
+            <Container>
+              <Switch>
+                <Route exact path='/'>
+                  <Home />
+                </Route>
+                <Route exact path='/fish'>
+                  <Fish data={fish} />
+                </Route>
+                <Route exact path='/bugs'>
+                  <Bugs data={bugs} />
+                </Route>
+                <Route exact path='/artwork'>
+                  <ArtWork data={artWork} />
+                </Route>
+                <Route exact path='/villagers'>
+                  <Villagers data={villagers} />
+                </Route>
+              </Switch>
 
-          }
-        </Container>
-      </Router>
-    </div>
+            </Container>
+          </Router>
+        </div>
+      }
+    </>
   );
 }
 export default App;
